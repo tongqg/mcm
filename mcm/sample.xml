@@ -1,0 +1,42 @@
+<domain type='kvm'>
+  <name>cil</name>
+  <uuid>57c1a157-3d64-4907-8c38-35d443a04ad8</uuid>
+  <memory unit='KiB'>4194304</memory>
+  <vcpu placement='static'>2</vcpu>
+  <sysinfo type='smbios'>
+     <system>
+      <entry name='manufacturer'>IBM</entry>
+      <entry name='product'>Zenith Controller</entry>
+      <entry name='version'>2014.1-201403302302.ibm.el6.116</entry>
+      <entry name='serial'>00000000-0000-0000-0000-002590f137c2</entry>
+    </system>
+  </sysinfo>
+  <os>
+   <type arch='x86_64' machine='rhel6.5.0'>hvm</type>
+   <boot dev='hd'/>
+   <smbios mode='sysinfo'/>
+  </os>
+  <devices>
+   <emulator>/usr/libexec/qemu-kvm</emulator>
+   <disk type='file' device='disk'>
+     <driver name='qemu' type='qcow2' cache='none'/>
+     <source file='/disk1/vms/hab/rhel6.5-x86_64-hmpcvm1.qcow2'/>
+     <target dev='vda' bus='virtio'/>
+   </disk>
+   <disk type='file' device='cdrom'>
+    <driver name='qemu' type='raw' />
+    <source file='config.iso' />
+    <target dev='hda' bus='ide' />
+   </disk>
+   <interface type='bridge'>
+    <mac address='00:16:3e:d4:be:53'/>
+    <source bridge='br0'/>
+    <model type='virtio'/>
+    <filterref filter='clean-traffic' />
+   </interface>
+   <console type='file'>
+    <source path='/disk1/vms/hab/console.log'/>
+    <target type='serial' port='0'/>
+   </console>
+  </devices>
+</domain>
