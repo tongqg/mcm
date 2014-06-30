@@ -19,6 +19,9 @@ def jsonToXML(jsonObject):
 	jsonToDocument(root, jsonObject[rootStr])
 	return root
 
+def jsonToXMLStr(jsonObject):
+	return ET.tostring(jsonToXML(jsonObject))
+
 def jsonToDocument(parent, jsonObject):
 	if type(jsonObject) == dict:
 		for k in jsonObject:

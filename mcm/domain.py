@@ -10,6 +10,11 @@ from xml.dom import minidom
 from util import xmltool
 
 log = logging.getLogger('domain')
+# emulator = '/usr/libexec/qemu-kvm'
+emulator = '/usr/bin/kvm-spice'
+arch='x86_64'
+# machine="rhel6.5.0"
+machine='pc'
 
 def gen(name, vcpu, mem, memunit, vda, cdrom=None, logfile='mcm.log'):
 	jroot = {}
@@ -38,9 +43,9 @@ def gen(name, vcpu, mem, memunit, vda, cdrom=None, logfile='mcm.log'):
 	jsysinfo['system'] = {'entry': jent}
 	jd['sysinfo'] = jsysinfo	
 
-	jd['os'] = {'type':{'__arch':'x86_64', '__machine':'rhel6.5.0', '__text':'hvm'}, 
+	jd['os'] = {'type':{'__arch':arch, '__machine':machine, '__text':'hvm'}, 
 				'boot':{'__dev':'hd'}, 'smbios':{'__mode':'sysinfo'}}
-	jdevices = {'emulator':'/usr/libexec/qemu-kvm'}
+	jdevices = {'emulator':emulator}
 	jharddisk = {'__type' : 'file', '__device':'disk', 
 				'driver':{'__name':'qemu', '__type':'qcow2', '__cache':'none'},
 				'source':{'__file':vda},
