@@ -2,5 +2,5 @@
 
 from mcm import domain
 
-domain.gen()
+
 

@@ -3,7 +3,7 @@ __author__='tongqg'
 
 import unittest
 import libvirt
-import domain
+from domain import DomainFactory
 from util import xmltool
 import logging
 
@@ -25,8 +25,9 @@ class HyperVisor():
 		if self.conn is not None:
 			self.conn.close()
 
-	def defineDomain(self, xmlstr):
+	def defineDomain(self, name, xmlstr):
 		if self.conn is not None:
+			self.undefineDomain(name)
 			self.conn.defineXML(xmlstr)
 		return
 
@@ -51,8 +52,10 @@ class HyperVisor():
 
 	def lookupDomain(self, name):
 		if self.conn is not None:
-			return self.conn.lookupByName(name)
-		return
+			try :
+				return self.conn.lookupByName(name)
+			except:
+				return None
 
 	def startDomain(self, name):
 		if self.conn is not None:
@@ -91,7 +94,8 @@ class UnitTest(unittest.TestCase):
 
 	def test_start_domain(self):
 		h = HyperVisor('192.168.10.107', 'root')
-		h.defineDomain(xmltool.jsonToXMLStr(domain.gen('a', 2, 256, 'MiB', '/home/tongqg/vm/hda.qcow2')))
+		d = DomainFactory('/usr/bin/kvm-spice', 'x86_64', 'pc')
+		h.defineDomain('a', d.gen('a', 2, 256, 'MiB', '/home/tongqg/vm/hda.qcow2'))
 		h.startDomain('a')
 		# h.stopDomain('a')
 		# h.undefineDomain('a')
