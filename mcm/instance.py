@@ -10,9 +10,11 @@ import logging
 log = logging.getLogger('instance')
 
 class HyperVisor():
-	def __init__(self, hostname, username):
+	def __init__(self, hostname, username,vmpath, image=None):
 		self.hostname = hostname
 		self.username = username
+		self.vmpath = vmpath
+		self.image =image
 		try:
 			self.conn = self.__connect(hostname, username)		
 		except:
@@ -91,12 +93,12 @@ class HyperVisor():
 class UnitTest(unittest.TestCase):
 	logging.basicConfig(level=logging.DEBUG)
 	def test_list_domains(self):
-		h = HyperVisor('192.168.10.107', 'root')
+		h = HyperVisor('192.168.10.107', 'root', "/tmp")
 		print h.listDefinedDomain()
 		h.close
 
 	def test_start_domain(self):
-		h = HyperVisor('192.168.10.107', 'root')
+		h = HyperVisor('192.168.10.107', 'root', "/tmp")
 		d = DomainFactory('/usr/bin/kvm-spice', 'x86_64', 'pc')
 		h.defineDomain('a', d.gen('a', 2, 256, 'MiB', '/home/tongqg/vm/hda.qcow2'))
 		h.startDomain('a')

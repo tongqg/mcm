@@ -67,8 +67,10 @@ class DomainFactory():
 		else:
 			jdevices['disk'] = jharddisk
 		jd['devices'] = jdevices
-		jd['interface'] = {'__type':'bridge', 'mac':{'__address':randomMAC()}, 'source':{'__bridge':'br0'},
-							'model':{'__type':'virtio'}, 'fileterref':{'__fileter':'clean-traffic'}}
+		jd['interface'] = [{'__type':'bridge', 'mac':{'__address':randomMAC()}, 'source':{'__bridge':'br0'},
+							'model':{'__type':'virtio'}, 'fileterref':{'__fileter':'clean-traffic'}},
+							{'__type':'bridge', 'mac':{'__address':randomMAC()}, 'source':{'__bridge':'br1'},
+							'model':{'__type':'virtio'}, 'fileterref':{'__fileter':'clean-traffic'}}]
 		jd['console'] = {'__type': 'file', 'source':{'__path':logfile}, 'target':{'__type':'serial', '__port':'0'}}
 		jroot['domain']=jd
 
