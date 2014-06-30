@@ -29,6 +29,7 @@ class HyperVisor():
 		if self.conn is not None:
 			self.undefineDomain(name)
 			self.conn.defineXML(xmlstr)
+			log.debug("defined domain " + name)
 		return
 
 	def undefineDomain(self, name):
@@ -36,6 +37,7 @@ class HyperVisor():
 		for d in list:
 			if (d == name):
 				self.lookupDomain(name).undefine()
+				log.debug("undefined domain " + name)
 		return 		
 
 	def listDefinedDomain(self):
@@ -62,6 +64,7 @@ class HyperVisor():
 			dom = self.lookupDomain(name)
 			if (dom is not None):
 				print dom.create()
+				log.debug("started domain " + name )
 			else:
 				log.error("Can't find domain " + name + ". Please define it first")
 		return
