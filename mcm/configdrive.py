@@ -36,10 +36,8 @@ def createMetaDataFile(configDriveRoot, name, hostname, eth0, eth0mask, eth0gate
 	metadata['uuid'] = str(uuid.uuid1())
 	metadata['public_key'] = 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyNkH1qAgUbAM1dgOxwz+P0hrnKgV1Bdi6QKyB6PrwvdCPsyO18Wrwq5gTOEMnrfGzEMlRqRDbyvoLE7ooWx+x0XVH2IeZVBSaJ27CvMSROU8o1Ef7Usi6ujOk6FgQySZAcC1LJ+61UoyipeDzXJ5EzjWKIlqEK/YKwStS/8O0r+2U3ia0eDmMw/RXz/nowLDwr3hIIIMh/Pk7DcNaRrdN8IacrsyV0Ht23U5vHBNMjyfDC8BcZJC5Mgdc3DBc0waHpvDeJiQMCYvVDdpTAj5GijjzCAGl5f0bqpfZ2FHxrWHsC59ve1GREdiQkFOsa4EvYVG8KOwwiYbR9/jMoVNYQ== generated'
 	files = []
-	if (eth0 != None):
-		files.append(configureContentFileForNetwork(configDriveRoot, 0, eth0, eth0mask, eth0gateway))
-	if (eth1 != None):
-		files.append(configureContentFileForNetwork(configDriveRoot, 1, eth1, eth1mask, eth1gateway))
+	files.append(configureContentFileForNetwork(configDriveRoot, 0, eth0, eth0mask, eth0gateway))
+	files.append(configureContentFileForNetwork(configDriveRoot, 1, eth1, eth1mask, eth1gateway))
 	metadata['files'] = files
 	f = open(configDriveRoot+"/openstack/latest/meta_data.json", "w")
 	f.write(json.dumps(metadata)+"\n")
@@ -59,14 +57,21 @@ def configureContentFileForNetwork(configDriveRoot, numofnic, ip, mask, gateway)
 
 
 def ifcfg_script(numofnic, ip, mask, gateway):
-	return ("DEVICE=eth{0}\n"+
-	"TYPE=Ethernet\n"+
-	"BOOTPROTO=static\n"+
-	"ONBOOT=yes\n"+
-	"NM_CONTROLLED=no\n"+
-	"IPADDR={1}\n"+
-	"NETMASK={2}\n"+
-	"GATEWAY={3}\n").format(numofnic, ip, mask, gateway)
+	if ip is not None:
+		return ("DEVICE=eth{0}\n"+
+		"TYPE=Ethernet\n"+
+		"BOOTPROTO=static\n"+
+		"ONBOOT=yes\n"+
+		"NM_CONTROLLED=no\n"+
+		"IPADDR={1}\n"+
+		"NETMASK={2}\n"+
+		"GATEWAY={3}\n").format(numofnic, ip, mask, gateway)
+	else:
+		return ("DEVICE=eth{0}\n"+
+		"TYPE=Ethernet\n"+
+		"BOOTPROTO=static\n"+
+		"ONBOOT=no\n"+
+		"NM_CONTROLLED=no\n").format(numofnic)
 
 
 def createUserDataFile(configDriveRoot, eth0, eth1):
@@ -75,6 +80,8 @@ def createUserDataFile(configDriveRoot, eth0, eth1):
 		metadata = metadata + " - ip addr add {0} dev eth0\n".format(eth0)
 	if eth1 is not None:
 		metadata = metadata + " - ip addr add {0} dev eth1\n".format(eth1)
+	metadata = metadata +" - service network restart\n"
+
 	f = open(configDriveRoot+"/openstack/latest/user_data", "w")
 	f.write(metadata)
 	f.close()
@@ -92,6 +99,7 @@ class UnitTest(unittest.TestCase):
 		os.system("ls /mnt/openstack/")
 		os.system("ls /mnt/openstack/content")
 		os.system("cat /mnt/openstack/content/ifcfg-eth0")
+		os.system("cat /mnt/openstack/content/ifcfg-eth1")
 		os.system("ls /mnt/openstack/latest")
 		os.system("cat /mnt/openstack/latest/meta_data.json")
 		os.system("cat /mnt/openstack/latest/user_data")
