@@ -34,7 +34,7 @@ def createMetaDataFile(configDriveRoot, name, hostname, eth0, eth0mask, eth0gate
 	metadata['name'] = name
 	metadata['launch_index'] = 0
 	metadata['uuid'] = str(uuid.uuid1())
-	metadata['public_key'] = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoBgmSatHx1utImX24Xyo1zpv9k/E0ad/Fhlax7ckK1ZCwZKyEDDqmT5uBx0wDOHXJUk8VgXSgaW06s6YrWfA55eHrtjzlVK/gmc089Un45CQL5gE4iZgR8nmnHRSHXDGG/1HMyeVn+7jcFW+aRs0I1uR2wPFZHLsDdcLE4fD2M3ojPaZNomC7M6Kse70L1DxnzTBgP0HCo6nI7PxNkFwuN4xe1O7uYwm+zuipYrjzDc+ZTjiozd9UpzsIfn4LW3hjLLCYGgRA00tW+sMO2Sr8dM5bYH4uYpmWgK69Qpx3XaZCqGwL/nbKREDIi3dk2iDVLBt5BC5Bea9cnMscLxCn generated'
+	metadata['public_key'] = 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyNkH1qAgUbAM1dgOxwz+P0hrnKgV1Bdi6QKyB6PrwvdCPsyO18Wrwq5gTOEMnrfGzEMlRqRDbyvoLE7ooWx+x0XVH2IeZVBSaJ27CvMSROU8o1Ef7Usi6ujOk6FgQySZAcC1LJ+61UoyipeDzXJ5EzjWKIlqEK/YKwStS/8O0r+2U3ia0eDmMw/RXz/nowLDwr3hIIIMh/Pk7DcNaRrdN8IacrsyV0Ht23U5vHBNMjyfDC8BcZJC5Mgdc3DBc0waHpvDeJiQMCYvVDdpTAj5GijjzCAGl5f0bqpfZ2FHxrWHsC59ve1GREdiQkFOsa4EvYVG8KOwwiYbR9/jMoVNYQ== generated'
 	files = []
 	if (eth0 != None):
 		files.append(configureContentFileForNetwork(configDriveRoot, 0, eth0, eth0mask, eth0gateway))
