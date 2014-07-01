@@ -85,8 +85,8 @@ def __buildcdiso(hypervisor, serverjson):
 			eth1=nic['ip']
 			eth1mask = nic['netmask']
 			eth1gateway = nic['gateway']
-	cd.createMetaDataFile(configDriveRoot, serverjson['name'], serverjson['hostname'], eth0, eth0mask, eth0gateway, eth1, eth1mask, eth1gateway)
-	cd.createUserDataFile(configDriveRoot, eth0, eth1)
+	cd.createMetaDataFile(configDriveRoot, serverjson['name'], serverjson['hostname'])
+	cd.createUserDataFile(configDriveRoot, eth0, eth0mask, eth0gateway, eth1, eth1mask, eth1gateway)
 	cd.createCD(configDriveRoot, tmpfile)
 	remotefile = hypervisor.vmpath+"/"+serverjson['name']+"/config.iso"
 	log.debug("created config drive locally. copy it to remote server {0} at path {1}".format(hypervisor.hostname, remotefile))
