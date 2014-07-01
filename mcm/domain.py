@@ -66,12 +66,16 @@ class DomainFactory():
 			jdevices['disk'] = [jharddisk, jcdrom]
 		else:
 			jdevices['disk'] = jharddisk
-		jd['devices'] = jdevices
-		jd['interface'] = [{'__type':'bridge', 'mac':{'__address':randomMAC()}, 'source':{'__bridge':'br0'},
+		jdevices['interface'] = [{'__type':'bridge', 'mac':{'__address':randomMAC()}, 'source':{'__bridge':'br0'},
 							'model':{'__type':'virtio'}, 'fileterref':{'__fileter':'clean-traffic'}},
 							{'__type':'bridge', 'mac':{'__address':randomMAC()}, 'source':{'__bridge':'br1'},
 							'model':{'__type':'virtio'}, 'fileterref':{'__fileter':'clean-traffic'}}]
-		jd['console'] = {'__type': 'file', 'source':{'__path':logfile}, 'target':{'__type':'serial', '__port':'0'}}
+		jdevices['seriel'] = {'__type': 'file', 'source':{'__path':logfile}, 'target':{'__type':'serial', '__port':'0'}}
+		jdevices['console'] = {'__type': 'file', 'source':{'__path':logfile}, 'target':{'__type':'serial', '__port':'0'}}
+		jdevices['input'] = {'__type':'mouse', '__bus':'ps2'}
+		jdevices['video'] = {'model':{'__type':'cirrus', '__vram':'9216', '__heads':'1'}}
+		jdevices['graphics'] = {'__type':'vnc', '__autoport':'yes', '__keymap':'en-us','listen':{'__type':'address', '__address':'0.0.0.0'}}
+		jd['devices'] = jdevices
 		jroot['domain']=jd
 
 		return xmltool.jsonToXMLStr(jroot)
@@ -88,7 +92,7 @@ class UnitTest(unittest.TestCase):
 	def test_gen(self):
 		d = DomainFactory()
 		self.prettyprint(d.gen('a', 2, 2, 'KiB', 'filepath'))
-		self.prettyprint(d.gen('a', 2, 2, 'KiB', 'filepath','isopath'))
+		self.prettyprint(d.gen('cd', 1, 2048, 'MiB', '/disk1/cd/vms/rhel6.5-x86_64-hmpcvm1.qcow2','/tmp/config.iso'))
 		return
 
 	def prettyprint(self, domstr):

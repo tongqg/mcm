@@ -43,7 +43,7 @@ def bootServer(hypername, servername):
 			for server in host['servers']:
 				if (server['name'] == servername):
 					__defineServer(hv, server, df)
-					hv.startDomain(server['name'])
+		#			hv.startDomain(server['name'])
 				else:
 					log.debug("can't find server " + servername + " in host " + hypername)
 		else:

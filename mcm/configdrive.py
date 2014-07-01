@@ -6,6 +6,7 @@ import unittest
 import os
 import shutil
 import uuid
+import json
 
 def createCD(directoryPath, targetFile='/tmp/config.iso'):
 	"""
@@ -41,7 +42,7 @@ def createMetaDataFile(configDriveRoot, name, hostname, eth0, eth0mask, eth0gate
 		files.append(configureContentFileForNetwork(configDriveRoot, 1, eth1, eth1mask, eth1gateway))
 	metadata['files'] = files
 	f = open(configDriveRoot+"/openstack/latest/meta_data.json", "w")
-	f.write(str(metadata)+"\n")
+	f.write(json.dumps(metadata)+"\n")
 	f.close()
 
 
