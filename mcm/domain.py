@@ -53,6 +53,10 @@ class DomainFactory():
 
 		jd['os'] = {'type':{'__arch':self.arch, '__machine':self.machine, '__text':'hvm'}, 
 					'boot':{'__dev':'hd'}, 'smbios':{'__mode':'sysinfo'}}
+		jd['features'] = {'acpi':{}, 'apic':{}}
+		jd['cpu'] = {'__mode':'host-model', 'model':{'__fallback':'allow'}}
+		jd['clock'] = {'__offset':'utc', 'timer':[{'__name':'pit', '__tickpolicy':'delay'}, {'__name':'rtc', '__tickpolicy':'catchup'}, {'__name':'hpet', '__present': 'no'}]}
+		
 		jdevices = {'emulator':self.emulator}
 		jharddisk = {'__type' : 'file', '__device':'disk', 
 					'driver':{'__name':'qemu', '__type':'qcow2', '__cache':'none'},
