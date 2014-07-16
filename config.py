@@ -5,7 +5,7 @@ import sys, getopt,json
 
 def main():
 	def usage():
-		return "getconfig.py -j <simple json> -o <json file used for mcm> -i <instanceid> -m <management site>"
+		return "config.py -j <simple json> -o <json file used for mcm> -i <instanceid> -m <management site>"
 	infile = ''
 	outfile = ''
 	instanceid = ""
