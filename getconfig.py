@@ -5,7 +5,7 @@ import sys, getopt,json
 
 def main():
 	def usage():
-		return "getconfig.py -j <simple json> -o <json file used for mcm> -i <instanceid>"
+		return "getconfig.py -j <simple json> -o <json file used for mcm> -i <instanceid> -m <management site>"
 	infile = ''
 	outfile = ''
 	instanceid = ""
@@ -68,6 +68,7 @@ def transform (infile, outfile, instanceid, mgmtst):
 		ohyper["servers"] = oservers
 		outj["hypervisors"].append(ohyper)
 	f = open (outfile, 'w')
+	print outfile
 	f.write(json.dumps(outj, sort_keys=True,indent=4, separators=(',', ': ')))
 
 if __name__ == "__main__":

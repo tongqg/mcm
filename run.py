@@ -51,7 +51,7 @@ def bootServer(hypername, servername):
 
 def __defineServer(hypervisor, serverjson, df):
 	cdfile = __buildcdiso(hypervisor, serverjson)
-	imagepath = serverjson['vda']
+#	imagepath = serverjson['vda']
 	if (hypervisor.image is not None):
 		# replace vda setting in individual server
 		imagename = hypervisor.image[hypervisor.image.rindex('/')+1:]
